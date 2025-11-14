@@ -72,14 +72,33 @@ Dieses System nutzt ein lokales Claude Code Plugin, um zusätzliche Modelle übe
     - `o3-mini`
     - `gpt-4.1`
     - `gpt-4.1-mini`
+  - `sandbox` (string, optional) – Sandbox-Modus für Codex:
+    - `read-only` – Nur Lese-Zugriff
+    - `workspace-write` – Schreibzugriff im Workspace
+    - `danger-full-access` – Voller Zugriff (YOLO-Modus)
+  - `approval_policy` (string, optional) – Genehmigungsrichtlinie:
+    - `untrusted` – Bei nicht vertrauenswürdigen Aktionen fragen
+    - `on-failure` – Bei Fehlern fragen
+    - `on-request` – Auf Anfrage fragen
+    - `never` – Niemals fragen (YOLO-Modus)
 
 - **Verwendung**:
   - Wenn der Benutzer explizit `OpenAI`, `ChatGPT`, `Codex`, `o3-mini` o.ä. anfordert
   - Für Cross-Checks / zweite Meinung neben Claude/Gemini
 
-**Beispiel**:
+**Beispiel** (Standard):
 ```text
 /openai-cli { "prompt": "Erkläre Quicksort in Python", "model": "o3-mini" }
+```
+
+**Beispiel** (YOLO-Modus - volle Rechte, keine Nachfragen):
+```text
+/openai-cli {
+  "prompt": "Analysiere und optimiere den Code",
+  "model": "o3-mini",
+  "sandbox": "danger-full-access",
+  "approval_policy": "never"
+}
 ```
 
 #### `/gemini-cli`
@@ -91,14 +110,31 @@ Dieses System nutzt ein lokales Claude Code Plugin, um zusätzliche Modelle übe
     - `gemini-2.5-pro`
     - `gemini-2.0-pro`
     - `gemini-2.0-flash`
+  - `yolo` (boolean, optional) – YOLO-Modus aktivieren:
+    - `true` – Alle Aktionen ohne Nachfragen ausführen
+    - `false` – Standardverhalten (fragt bei kritischen Aktionen)
+  - `approval_mode` (string, optional) – Genehmigungsmodus:
+    - `default` – Standard-Genehmigung
+    - `auto_edit` – Automatische Edits erlauben
+    - `yolo` – YOLO-Modus (keine Nachfragen)
 
 - **Verwendung**:
   - Wenn der Benutzer explizit `Gemini` oder eines der oben genannten Modelle anfordert
   - Für Cross-Checks / Spezialfälle, in denen Gemini bevorzugt wird
 
-**Beispiel**:
+**Beispiel** (Standard):
 ```text
 /gemini-cli { "prompt": "Fasse diese Sitzung zusammen", "model": "gemini-2.5-pro" }
+```
+
+**Beispiel** (YOLO-Modus - alle Aktionen ohne Nachfragen):
+```text
+/gemini-cli {
+  "prompt": "Refactore den gesamten Bot-Code",
+  "model": "gemini-2.5-pro",
+  "yolo": true,
+  "approval_mode": "yolo"
+}
 ```
 
 ---

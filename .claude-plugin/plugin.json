@@ -18,6 +18,16 @@
             "type": "string",
             "description": "Optional model override passed to Codex via -m/--model",
             "nullable": true
+          },
+          "sandbox": {
+            "type": "string",
+            "description": "Optional Codex sandbox mode passed as --sandbox (e.g. read-only, workspace-write, danger-full-access)",
+            "nullable": true
+          },
+          "approval_policy": {
+            "type": "string",
+            "description": "Optional Codex approval policy passed as --ask-for-approval/-a (e.g. untrusted, on-failure, on-request, never)",
+            "nullable": true
           }
         },
         "required": ["prompt"]
@@ -38,6 +48,16 @@
             "type": "string",
             "description": "Optional model name passed via --model",
             "nullable": true
+          },
+          "yolo": {
+            "type": "boolean",
+            "description": "If true, passes --yolo to Gemini CLI so it runs without confirmation.",
+            "nullable": true
+          },
+          "approval_mode": {
+            "type": "string",
+            "description": "Optional Gemini approval mode passed via --approval-mode (default, auto_edit, yolo)",
+            "nullable": true
           }
         },
         "required": ["prompt"]
@@ -45,4 +65,3 @@
     }
   ]
 }
-

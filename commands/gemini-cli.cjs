@@ -22,11 +22,18 @@ function isAuthError(stderr) {
   );
 }
 
-function runGemini(prompt, model) {
+function runGemini(prompt, model, yolo, approvalMode) {
   return new Promise((resolve) => {
     const args = [];
     if (model) {
       args.push("--model", model);
+    }
+     // YOLO / approval flags steuern, ob Gemini selbst nachfragt
+    if (yolo === true) {
+      args.push("--yolo");
+    }
+    if (approvalMode && typeof approvalMode === "string") {
+      args.push("--approval-mode", approvalMode);
     }
     // Non-interactive, single prompt invocation.
     args.push(prompt);
@@ -101,13 +108,15 @@ async function main() {
 
   const prompt = payload.prompt;
   const model = payload.model;
+  const yolo = payload.yolo;
+  const approvalMode = payload.approval_mode;
 
   if (!prompt || typeof prompt !== "string") {
     console.error("Missing required field `prompt` (string).");
     process.exit(1);
   }
 
-  const result = await runGemini(prompt, model);
+  const result = await runGemini(prompt, model, yolo, approvalMode);
 
   if (!result.ok) {
     const response = {
@@ -133,4 +142,3 @@ main().catch((err) => {
   console.error("Unexpected error in gemini-cli command:", err);
   process.exit(1);
 });
-

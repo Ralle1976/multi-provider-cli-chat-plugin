@@ -22,9 +22,17 @@ function isAuthError(stderr) {
   );
 }
 
-function runCodex(prompt, model) {
+function runCodex(prompt, model, sandbox, approvalPolicy) {
   return new Promise((resolve) => {
     const args = [];
+
+    if (sandbox && typeof sandbox === "string") {
+      args.push("--sandbox", sandbox);
+    }
+    if (approvalPolicy && typeof approvalPolicy === "string") {
+      args.push("--ask-for-approval", approvalPolicy);
+    }
+
     if (model) {
       args.push("-m", model);
     }
@@ -101,13 +109,15 @@ async function main() {
 
   const prompt = payload.prompt;
   const model = payload.model;
+  const sandbox = payload.sandbox;
+  const approvalPolicy = payload.approval_policy;
 
   if (!prompt || typeof prompt !== "string") {
     console.error("Missing required field `prompt` (string).");
     process.exit(1);
   }
 
-  const result = await runCodex(prompt, model);
+  const result = await runCodex(prompt, model, sandbox, approvalPolicy);
 
   if (!result.ok) {
     const response = {
@@ -133,4 +143,3 @@ main().catch((err) => {
   console.error("Unexpected error in openai-cli command:", err);
   process.exit(1);
 });
-

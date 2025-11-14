@@ -74,10 +74,27 @@ Sendet ein Prompt an die Codex-CLI:
   - `gpt-4.1`
   - `gpt-4.1-mini`
 
+Optionale Steuerung für Sandbox/Approval der Codex-CLI:
+
+- `sandbox` (string): wird als `--sandbox` an `codex` übergeben, z.B.:
+  - `read-only`
+  - `workspace-write`
+  - `danger-full-access`
+- `approval_policy` (string): wird als `--ask-for-approval` an `codex` übergeben, z.B.:
+  - `untrusted`
+  - `on-failure`
+  - `on-request`
+  - `never`
+
 Beispiel-Aufruf in Claude:
 
 ```text
-/openai-cli { "prompt": "Erkläre Quicksort kurz.", "model": "o3-mini" }
+/openai-cli {
+  "prompt": "Erkläre Quicksort kurz.",
+  "model": "o3-mini",
+  "sandbox": "danger-full-access",
+  "approval_policy": "never"
+}
 ```
 
 ### `/gemini-cli`
@@ -91,10 +108,23 @@ Sendet ein Prompt an die Gemini-CLI:
   - `gemini-2.0-pro`
   - `gemini-2.0-flash`
 
+Optionale Steuerung für Gemini-YOLO/Approval:
+
+- `yolo` (boolean): wenn `true`, wird `--yolo` an `gemini` übergeben (alle Aktionen ohne Nachfragen).
+- `approval_mode` (string): wird als `--approval-mode` übergeben, z.B.:
+  - `default`
+  - `auto_edit`
+  - `yolo`
+
 Beispiel-Aufruf in Claude:
 
 ```text
-/gemini-cli { "prompt": "Fasse diese Sitzung zusammen.", "model": "gemini-2.5-pro" }
+/gemini-cli {
+  "prompt": "Fasse diese Sitzung zusammen.",
+  "model": "gemini-2.5-pro",
+  "yolo": true,
+  "approval_mode": "yolo"
+}
 ```
 
 ## Error and Rate Limit Handling
