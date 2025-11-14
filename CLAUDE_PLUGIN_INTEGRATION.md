@@ -111,12 +111,14 @@ Dieses System nutzt ein lokales Claude Code Plugin, um zusätzliche Modelle übe
     - `gemini-2.0-pro`
     - `gemini-2.0-flash`
   - `yolo` (boolean, optional) – YOLO-Modus aktivieren:
-    - `true` – Alle Aktionen ohne Nachfragen ausführen
-    - `false` – Standardverhalten (fragt bei kritischen Aktionen)
-  - `approval_mode` (string, optional) – Genehmigungsmodus:
+    - `true` – Wird intern zu `--approval-mode=yolo` konvertiert
+    - `false` – Standardverhalten
+  - `approval_mode` (string, optional) – Genehmigungsmodus (hat Priorität über `yolo`):
     - `default` – Standard-Genehmigung
     - `auto_edit` – Automatische Edits erlauben
     - `yolo` – YOLO-Modus (keine Nachfragen)
+
+- **Wichtig**: Die Gemini CLI erlaubt nicht `--yolo` und `--approval-mode` gleichzeitig. Das Plugin konvertiert `yolo: true` automatisch zu `--approval-mode=yolo`. Wenn beide Parameter gesetzt sind, hat `approval_mode` Priorität.
 
 - **Verwendung**:
   - Wenn der Benutzer explizit `Gemini` oder eines der oben genannten Modelle anfordert
@@ -127,13 +129,21 @@ Dieses System nutzt ein lokales Claude Code Plugin, um zusätzliche Modelle übe
 /gemini-cli { "prompt": "Fasse diese Sitzung zusammen", "model": "gemini-2.5-pro" }
 ```
 
-**Beispiel** (YOLO-Modus - alle Aktionen ohne Nachfragen):
+**Beispiel** (YOLO-Modus - Variante 1 mit approval_mode):
 ```text
 /gemini-cli {
   "prompt": "Refactore den gesamten Bot-Code",
   "model": "gemini-2.5-pro",
-  "yolo": true,
   "approval_mode": "yolo"
+}
+```
+
+**Beispiel** (YOLO-Modus - Variante 2 mit yolo-Flag):
+```text
+/gemini-cli {
+  "prompt": "Refactore den gesamten Bot-Code",
+  "model": "gemini-2.5-pro",
+  "yolo": true
 }
 ```
 

@@ -28,12 +28,14 @@ function runGemini(prompt, model, yolo, approvalMode) {
     if (model) {
       args.push("--model", model);
     }
-     // YOLO / approval flags steuern, ob Gemini selbst nachfragt
-    if (yolo === true) {
-      args.push("--yolo");
-    }
+    // YOLO / approval flags: Gemini CLI erlaubt NICHT --yolo und --approval-mode gleichzeitig
+    // Wenn approval_mode gesetzt ist, verwende das (hat Priorität)
+    // Wenn nur yolo=true, dann setze --approval-mode=yolo
+    // Wenn beides fehlt, nutze Gemini-Standardverhalten
     if (approvalMode && typeof approvalMode === "string") {
       args.push("--approval-mode", approvalMode);
+    } else if (yolo === true) {
+      args.push("--approval-mode", "yolo");
     }
     // Non-interactive, single prompt invocation.
     args.push(prompt);

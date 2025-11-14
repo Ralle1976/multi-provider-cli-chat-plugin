@@ -110,11 +110,13 @@ Sendet ein Prompt an die Gemini-CLI:
 
 Optionale Steuerung für Gemini-YOLO/Approval:
 
-- `yolo` (boolean): wenn `true`, wird `--yolo` an `gemini` übergeben (alle Aktionen ohne Nachfragen).
+- `yolo` (boolean): wenn `true`, wird intern `--approval-mode=yolo` verwendet (alle Aktionen ohne Nachfragen).
 - `approval_mode` (string): wird als `--approval-mode` übergeben, z.B.:
   - `default`
   - `auto_edit`
   - `yolo`
+
+**Wichtig**: Die Gemini CLI erlaubt nicht `--yolo` und `--approval-mode` gleichzeitig. Das Plugin konvertiert `yolo: true` automatisch zu `--approval-mode=yolo`. Wenn beide Parameter gesetzt sind, hat `approval_mode` Priorität.
 
 Beispiel-Aufruf in Claude:
 
@@ -122,8 +124,17 @@ Beispiel-Aufruf in Claude:
 /gemini-cli {
   "prompt": "Fasse diese Sitzung zusammen.",
   "model": "gemini-2.5-pro",
-  "yolo": true,
   "approval_mode": "yolo"
+}
+```
+
+Oder alternativ mit dem `yolo`-Parameter (wird intern zu `approval_mode=yolo` konvertiert):
+
+```text
+/gemini-cli {
+  "prompt": "Fasse diese Sitzung zusammen.",
+  "model": "gemini-2.5-pro",
+  "yolo": true
 }
 ```
 
