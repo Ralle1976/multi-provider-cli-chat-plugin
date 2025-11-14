@@ -1,0 +1,48 @@
+{
+  "name": "multi-provider-cli-chat",
+  "version": "0.1.0",
+  "description": "Route Claude prompts to Codex (OpenAI CLI) and Gemini CLI with account-based auth, rate-limit handling, and no direct API key usage.",
+  "commands": [
+    {
+      "name": "openai-cli",
+      "title": "Send prompt via Codex CLI",
+      "description": "Uses the locally installed @openai/codex CLI (`codex exec`) with your existing login/session.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "User prompt to send to Codex CLI"
+          },
+          "model": {
+            "type": "string",
+            "description": "Optional model override passed to Codex via -m/--model",
+            "nullable": true
+          }
+        },
+        "required": ["prompt"]
+      }
+    },
+    {
+      "name": "gemini-cli",
+      "title": "Send prompt via Gemini CLI",
+      "description": "Uses the locally installed gemini CLI with your existing login/session.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "User prompt to send to Gemini CLI"
+          },
+          "model": {
+            "type": "string",
+            "description": "Optional model name passed via --model",
+            "nullable": true
+          }
+        },
+        "required": ["prompt"]
+      }
+    }
+  ]
+}
+
