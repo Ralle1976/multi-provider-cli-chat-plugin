@@ -7,6 +7,11 @@ This Claude Code plugin routes prompts to locally installed CLIs:
 
 Authentication, billing, and rate limits are all handled by the respective CLIs. The plugin only shells out to these tools and interprets their stdout/stderr.
 
+## 📚 Claude Code Integration
+
+**For integrating this plugin into your Claude Code projects**, see:
+- [CLAUDE_PLUGIN_INTEGRATION.md](./CLAUDE_PLUGIN_INTEGRATION.md) - Complete guide for adding this plugin to your CLAUDE.md project files
+
 ## Requirements
 
 - Node.js installiert
