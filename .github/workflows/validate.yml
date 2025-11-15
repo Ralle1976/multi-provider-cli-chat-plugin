@@ -1,0 +1,49 @@
+name: Validate Plugin
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Validate plugin.json
+        run: |
+          echo "Validating plugin.json..."
+          node -e "const p = require('./.claude-plugin/plugin.json'); console.log('Plugin name:', p.name); console.log('Version:', p.version);"
+
+      - name: Check JavaScript syntax
+        run: |
+          echo "Checking openai-cli.cjs syntax..."
+          node --check commands/openai-cli.cjs
+          echo "Checking gemini-cli.cjs syntax..."
+          node --check commands/gemini-cli.cjs
+
+      - name: Validate package.json
+        run: |
+          echo "Validating package.json..."
+          node -e "const p = require('./package.json'); console.log('Package:', p.name, p.version);"
+
+      - name: Check for secrets in code
+        run: |
+          echo "Checking for exposed secrets..."
+          ! grep -r "ghp_\|sk-\|api_key.*=" commands/ .claude-plugin/ || { echo "Potential secrets found!"; exit 1; }
+
+      - name: Success
+        run: echo "All validation checks passed!"

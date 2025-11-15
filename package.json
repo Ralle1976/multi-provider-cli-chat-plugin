@@ -1,0 +1,37 @@
+{
+  "name": "multi-provider-cli-chat-plugin",
+  "version": "0.1.0",
+  "description": "Claude Code plugin for OpenAI Codex and Gemini CLI integration with account-based auth and no direct API key usage",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0",
+    "validate": "node -e \"require('./.claude-plugin/plugin.json')\" && node --check commands/openai-cli.cjs && node --check commands/gemini-cli.cjs"
+  },
+  "keywords": [
+    "claude",
+    "claude-code",
+    "plugin",
+    "openai",
+    "codex",
+    "gemini",
+    "cli",
+    "ai",
+    "multi-provider"
+  ],
+  "author": "Ralle1976",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ralle1976/multi-provider-cli-chat-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Ralle1976/multi-provider-cli-chat-plugin/issues"
+  },
+  "homepage": "https://github.com/Ralle1976/multi-provider-cli-chat-plugin#readme",
+  "peerDependencies": {
+    "@openai/codex": ">=1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
