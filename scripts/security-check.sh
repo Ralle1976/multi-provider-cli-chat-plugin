@@ -101,7 +101,6 @@ echo "--------------------------------------"
 
 REQUIRED_IGNORES=(
     ".env"
-    "*.env"
     "secrets.json"
     "credentials.json"
     "*.key"
