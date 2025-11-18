@@ -1,11 +1,24 @@
 # Multi-Provider CLI Chat Plugin
 
+[![Security Check](https://img.shields.io/badge/security-checked-brightgreen.svg)](./SECURITY.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 This Claude Code plugin routes prompts to locally installed CLIs:
 
 - `codex` from `@openai/codex` (ChatGPT/OpenAI account, no direct API key usage in this plugin)
 - `gemini` CLI (Google Gemini account, no direct API key usage in this plugin)
 
 Authentication, billing, and rate limits are all handled by the respective CLIs. The plugin only shells out to these tools and interprets their stdout/stderr.
+
+## 🔐 Security First
+
+**This plugin does NOT store, manage, or require API keys!** All authentication is handled by the CLI tools themselves using account-based authentication.
+
+⚠️ **Important Security Rules:**
+- Never commit `.env` files (already in `.gitignore`)
+- Never embed tokens in git remote URLs
+- Run `bash scripts/security-check.sh` before every push
+- See [SECURITY.md](./SECURITY.md) for complete security guidelines
 
 ## 📚 Claude Code Integration
 

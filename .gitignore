@@ -22,10 +22,32 @@ desktop.ini
 *.log
 logs/
 
-# Environment
+# Environment & Secrets
 .env
 .env.local
 .env.*.local
+secrets.json
+credentials.json
+config.local.json
+
+# Allow .env examples (templates)
+!.env.example
+!.env*.example
+
+# API Keys & Tokens
+*_key
+*_token
+*_secret
+*.key
+*.pem
+*.p12
+*.pfx
+
+# Credentials
+auth.json
+token.json
+.credentials
+.token
 
 # Testing
 coverage/
