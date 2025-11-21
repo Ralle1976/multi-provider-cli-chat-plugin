@@ -1,12 +1,15 @@
 {
   "name": "multi-provider-cli-chat",
-  "version": "0.1.0",
-  "description": "Route Claude prompts to Codex (OpenAI CLI) and Gemini CLI with account-based auth, rate-limit handling, and no direct API key usage.",
+  "version": "2.0.0",
+  "description": "Multi-Provider AI Integration for Claude Code - Routes tasks to OpenAI Codex and Google Gemini via CLI with circuit breaker protection",
+  "author": "Ralle1976",
+  "repository": "https://github.com/Ralle1976/multi-provider-cli-chat-plugin",
+
   "commands": [
     {
       "name": "openai-cli",
       "title": "Send prompt via Codex CLI",
-      "description": "Uses the locally installed @openai/codex CLI (`codex exec`) with your existing login/session.",
+      "description": "Uses the locally installed @openai/codex CLI with your existing login/session.",
       "input_schema": {
         "type": "object",
         "properties": {
@@ -16,18 +19,16 @@
           },
           "model": {
             "type": "string",
-            "description": "Optional model override passed to Codex via -m/--model",
-            "nullable": true
+            "description": "Model: gpt-5.1-codex (best), gpt-5.1-codex-mini (fast), gpt-5.1 (general)",
+            "default": "gpt-5.1-codex"
           },
           "sandbox": {
             "type": "string",
-            "description": "Optional Codex sandbox mode passed as --sandbox (e.g. read-only, workspace-write, danger-full-access)",
-            "nullable": true
+            "description": "Sandbox mode: read-only, workspace-write, danger-full-access"
           },
           "approval_policy": {
             "type": "string",
-            "description": "Optional Codex approval policy passed as --ask-for-approval/-a (e.g. untrusted, on-failure, on-request, never)",
-            "nullable": true
+            "description": "Approval policy: untrusted, on-failure, on-request, never"
           }
         },
         "required": ["prompt"]
@@ -46,22 +47,47 @@
           },
           "model": {
             "type": "string",
-            "description": "Optional model name passed via --model",
-            "nullable": true
+            "description": "Model: gemini-3-pro-preview-11-2025 (best), gemini-3.0-flash (fast), gemini-2.5-pro (stable)",
+            "default": "gemini-2.5-pro"
           },
           "yolo": {
             "type": "boolean",
-            "description": "If true, passes --yolo to Gemini CLI so it runs without confirmation.",
-            "nullable": true
+            "description": "If true, runs without confirmation prompts"
           },
           "approval_mode": {
             "type": "string",
-            "description": "Optional Gemini approval mode passed via --approval-mode (default, auto_edit, yolo)",
-            "nullable": true
+            "description": "Approval mode: default, auto_edit, yolo"
           }
         },
         "required": ["prompt"]
       }
     }
-  ]
+  ],
+
+  "agents": [
+    {
+      "name": "openai-agent",
+      "description": "OpenAI Codex sub-agent for code generation, review, and optimization",
+      "path": "agents/openai-agent.md"
+    },
+    {
+      "name": "gemini-agent",
+      "description": "Google Gemini sub-agent for analysis, brainstorming, and cross-verification",
+      "path": "agents/gemini-agent.md"
+    }
+  ],
+
+  "features": {
+    "circuitBreaker": {
+      "enabled": true,
+      "threshold": 3,
+      "windowMinutes": 5,
+      "cooldownMinutes": 10
+    }
+  },
+
+  "requirements": {
+    "codex": "npm install -g @openai/codex && codex login",
+    "gemini": "npm install -g @google/gemini-cli && gemini auth login"
+  }
 }
