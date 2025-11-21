@@ -82,10 +82,13 @@ Sendet ein Prompt an die Codex-CLI:
 
 - Intern wird `codex exec <prompt>` verwendet.
 - Optionaler `model`-Parameter wird über `-m` an Codex weitergegeben.
-- Typische Modelle:
-  - `o3-mini`
-  - `gpt-4.1`
-  - `gpt-4.1-mini`
+- Verfügbare Modelle im Codex CLI (Stand November 2025):
+  - `gpt-5.1-codex` - Optimized for codex (Hauptmodell für Coding)
+  - `gpt-5.1-codex-mini` - Optimized for codex, cheaper & faster but less capable
+  - `gpt-5.1` - (current default) Broad world knowledge with strong general reasoning
+
+- Legacy-Modelle (via `codex -m <model_name>` oder config.toml):
+  - Weitere Modelle können über die Codex-Konfiguration eingestellt werden
 
 Optionale Steuerung für Sandbox/Approval der Codex-CLI:
 
@@ -104,11 +107,17 @@ Beispiel-Aufruf in Claude:
 ```text
 /openai-cli {
   "prompt": "Erkläre Quicksort kurz.",
-  "model": "o3-mini",
+  "model": "gpt-5.1-codex",
   "sandbox": "danger-full-access",
   "approval_policy": "never"
 }
 ```
+
+**Empfohlene Modelle für verschiedene Use-Cases**:
+- **Coding (beste Qualität)**: `gpt-5.1-codex` - Optimiert für Codex, beste Coding-Performance
+- **Coding (schnell/günstig)**: `gpt-5.1-codex-mini` - Schneller und günstiger, gute Performance
+- **Allgemeine Aufgaben**: `gpt-5.1` - Breites Weltwissen, starkes general reasoning
+- **Legacy/Spezial**: Via `-m` Parameter oder config.toml konfigurierbar
 
 ### `/gemini-cli`
 
@@ -116,10 +125,13 @@ Sendet ein Prompt an die Gemini-CLI:
 
 - Intern wird `gemini <prompt>` mit dem Prompt als Positionsargument verwendet.
 - Optionaler `model`-Parameter wird über `--model` übergeben.
-- Typische Modelle:
-  - `gemini-2.5-pro`
-  - `gemini-2.0-pro`
-  - `gemini-2.0-flash`
+- Typische Modelle (Stand 2025):
+  - `gemini-3-pro-preview-11-2025` - Latest Gemini 3 Pro (released Nov 2025, 1M token context)
+  - `gemini-3-pro-preview-11-2025-thinking` - Gemini 3 with visible reasoning
+  - `gemini-3.0-flash` - Fast, latency-focused Gemini 3 variant
+  - `gemini-2.5-pro` - Previous generation Pro
+  - `gemini-2.0-pro` - Earlier Pro version
+  - `gemini-2.0-flash` - Earlier Flash version
 
 Optionale Steuerung für Gemini-YOLO/Approval:
 
@@ -136,7 +148,7 @@ Beispiel-Aufruf in Claude:
 ```text
 /gemini-cli {
   "prompt": "Fasse diese Sitzung zusammen.",
-  "model": "gemini-2.5-pro",
+  "model": "gemini-3-pro-preview-11-2025",
   "approval_mode": "yolo"
 }
 ```
@@ -146,10 +158,16 @@ Oder alternativ mit dem `yolo`-Parameter (wird intern zu `approval_mode=yolo` ko
 ```text
 /gemini-cli {
   "prompt": "Fasse diese Sitzung zusammen.",
-  "model": "gemini-2.5-pro",
+  "model": "gemini-3-pro-preview-11-2025",
   "yolo": true
 }
 ```
+
+**Empfohlene Modelle für verschiedene Use-Cases**:
+- **Höchste Intelligenz**: `gemini-3-pro-preview-11-2025` - 1M Token Context, beste Performance
+- **Sichtbares Reasoning**: `gemini-3-pro-preview-11-2025-thinking` - Zeigt Denkprozess
+- **Schnelligkeit/Latenz**: `gemini-3.0-flash` - Sub-Sekunden-Antworten bei hoher Qualität
+- **Stabil/Bewährt**: `gemini-2.5-pro` - Vorherige Generation, gut getestet
 
 ## Error and Rate Limit Handling
 
