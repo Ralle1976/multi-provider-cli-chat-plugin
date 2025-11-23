@@ -1,7 +1,7 @@
 {
   "name": "multi-provider-cli-chat",
-  "version": "2.0.0",
-  "description": "Multi-Provider AI Integration for Claude Code - Routes tasks to OpenAI Codex and Google Gemini via CLI with circuit breaker protection",
+  "version": "2.1.0",
+  "description": "Multi-Provider AI Integration for Claude Code - Routes tasks to OpenAI Codex, Google Gemini, and Kimi K2 via CLI with circuit breaker protection",
   "author": "Ralle1976",
   "repository": "https://github.com/Ralle1976/multi-provider-cli-chat-plugin",
 
@@ -61,6 +61,77 @@
         },
         "required": ["prompt"]
       }
+    },
+    {
+      "name": "kimi-cli",
+      "title": "Send prompt via Kimi K2 API",
+      "description": "Uses Moonshot AI's Kimi K2 API (1 trillion params, 256K context). Requires MOONSHOT_API_KEY.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "User prompt to send to Kimi K2"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model: kimi-k2-0711 (best), kimi-k2-thinking (reasoning), moonshot-v1-8k (fast)",
+            "default": "kimi-k2-0711"
+          },
+          "system": {
+            "type": "string",
+            "description": "Optional system prompt"
+          }
+        },
+        "required": ["prompt"]
+      }
+    },
+    {
+      "name": "kimi-auth",
+      "title": "Kimi K2 Authentication",
+      "description": "Check, test, or get setup instructions for Kimi K2 API authentication.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Action: status (default), test, help",
+            "default": "status"
+          }
+        }
+      }
+    },
+    {
+      "name": "gemini-accounts",
+      "title": "Multi-Account Gemini Management",
+      "description": "Manage multiple Gemini accounts with automatic rotation on rate-limits. Supports free and paid accounts.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Action: add, remove, list, status, rotate, set, strategy, toggle",
+            "default": "status"
+          },
+          "name": {
+            "type": "string",
+            "description": "Account name (for add, remove, set, toggle)"
+          },
+          "api_key": {
+            "type": "string",
+            "description": "API key (for add)"
+          },
+          "type": {
+            "type": "string",
+            "description": "Account type: free or paid (for add)",
+            "default": "free"
+          },
+          "strategy": {
+            "type": "string",
+            "description": "Rotation strategy: free_first, paid_first, round_robin (for strategy action)"
+          }
+        }
+      }
     }
   ],
 
@@ -74,6 +145,11 @@
       "name": "gemini-agent",
       "description": "Google Gemini sub-agent for analysis, brainstorming, and cross-verification",
       "path": "agents/gemini-agent.md"
+    },
+    {
+      "name": "kimi-agent",
+      "description": "Kimi K2 sub-agent for long-context tasks (256K), complex reasoning, and tool calling (100% accuracy)",
+      "path": "agents/kimi-agent.md"
     }
   ],
 
@@ -88,6 +164,7 @@
 
   "requirements": {
     "codex": "npm install -g @openai/codex && codex login",
-    "gemini": "npm install -g @google/gemini-cli && gemini auth login"
+    "gemini": "npm install -g @google/gemini-cli && gemini auth login",
+    "kimi": "export MOONSHOT_API_KEY=sk-... (from https://platform.moonshot.ai/)"
   }
 }
