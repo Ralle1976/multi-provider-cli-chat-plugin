@@ -36,8 +36,8 @@ function runCodex(prompt, model, sandbox, approvalPolicy) {
     if (model) {
       args.push("-m", model);
     }
-    // Non-interactive, single-shot execution
-    args.push("exec", prompt);
+    // Non-interactive, single-shot execution with skip-git-repo-check
+    args.push("exec", "--skip-git-repo-check", prompt);
 
     const child = execFile("codex", args, { maxBuffer: 1024 * 1024 }, (error, stdout, stderr) => {
       if (error) {
