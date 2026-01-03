@@ -1,7 +1,7 @@
 {
   "name": "multi-provider-cli-chat",
-  "version": "2.1.0",
-  "description": "Multi-Provider AI Integration for Claude Code - Routes tasks to OpenAI Codex, Google Gemini, and Kimi K2 via CLI with circuit breaker protection",
+  "version": "2.2.0",
+  "description": "Multi-Provider AI Integration for Claude Code - Routes tasks to OpenAI Codex, Google Gemini, Kimi K2, Qwen, and Z.ai (GLM-4.7) via CLI with circuit breaker protection",
   "author": "Ralle1976",
   "repository": "https://github.com/Ralle1976/multi-provider-cli-chat-plugin",
 
@@ -132,6 +132,50 @@
           }
         }
       }
+    },
+    {
+      "name": "qwen-cli",
+      "title": "Send prompt via Qwen API",
+      "description": "Uses Alibaba Qwen/GWEN API (Qwen3-Coder, Qwen3-Max). Great for coding tasks with generous free limits.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "User prompt to send to Qwen"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model: qwen3-coder-plus (coding), qwen3-max (best), qwen3-turbo (fast)",
+            "default": "qwen3-coder-plus"
+          },
+          "approval_mode": {
+            "type": "string",
+            "description": "Approval mode: default, yolo"
+          }
+        },
+        "required": ["prompt"]
+      }
+    },
+    {
+      "name": "zai-cli",
+      "title": "Send prompt via Z.ai API (GLM-4.7)",
+      "description": "Uses Z.ai API with Anthropic-compatible interface. Maps to Zhipu GLM-4.7 models.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "description": "User prompt to send to Z.ai"
+          },
+          "model": {
+            "type": "string",
+            "description": "Model: claude-3-5-sonnet-20241022 (→ GLM-4.7), claude-3-5-haiku-20241022 (→ GLM-4.5-Air)",
+            "default": "claude-3-5-sonnet-20241022"
+          }
+        },
+        "required": ["prompt"]
+      }
     }
   ],
 
@@ -150,6 +194,16 @@
       "name": "kimi-agent",
       "description": "Kimi K2 sub-agent for long-context tasks (256K), complex reasoning, and tool calling (100% accuracy)",
       "path": "agents/kimi-agent.md"
+    },
+    {
+      "name": "qwen-agent",
+      "description": "Qwen sub-agent for coding tasks (Qwen3-Coder), long context, and cross-verification. Generous free limits.",
+      "path": "agents/qwen-agent.md"
+    },
+    {
+      "name": "zai-agent",
+      "description": "Z.ai (GLM-4.7) sub-agent using Anthropic-compatible API. Zhipu AI's flagship model.",
+      "path": "agents/zai-agent.md"
     }
   ],
 
@@ -165,6 +219,8 @@
   "requirements": {
     "codex": "npm install -g @openai/codex && codex login",
     "gemini": "npm install -g @google/gemini-cli && gemini auth login",
-    "kimi": "export MOONSHOT_API_KEY=sk-... (from https://platform.moonshot.ai/)"
+    "kimi": "export MOONSHOT_API_KEY=sk-... (from https://platform.moonshot.ai/)",
+    "qwen": "export DASHSCOPE_API_KEY=sk-... (from https://dashscope.console.aliyun.com/)",
+    "zai": "echo 'your_key' > ~/.zai_api_key (from https://z.ai/manage-apikey/apikey-list)"
   }
 }
